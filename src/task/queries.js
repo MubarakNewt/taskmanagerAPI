@@ -4,6 +4,11 @@ const getUserById = 'SELECT * FROM users WHERE id = $1'
 const getUserBoards = 'SELECT * FROM boards JOIN users ON boards.user_id = users.id WHERE users.id = $1'
 const getColumnTask = 'SELECT boards.id, boards.name, columns.id, tasks.id, tasks.title, tasks.description, tasks.current_status FROM boards JOIN columns ON boards.id = columns.board_id JOIN tasks ON columns.id = tasks.column_id WHERE boards.id = $1'
 const getTasks = 'SELECT tasks.id, tasks.title, tasks.description, tasks.current_status, sub_tasks.id, sub_tasks.title, sub_tasks.is_completed FROM tasks JOIN sub_tasks ON tasks.id = sub_tasks.task_id WHERE tasks.id = $1'
+const getBoardById = 'SELECT * FROM boards WHERE id = $1'
+const getColumnById = 'SELECT * FROM columns WHERE id = $1'
+const getTaskById = 'SELECT * FROM tasks WHERE id = $1'
+const getSubtaskById = 'SELECT * FROM sub_tasks WHERE id = $1'
+
 
 const addUsers = 'INSERT INTO users (first_name, last_name, email) VALUES ($1, $2, $3)'
 const addTasks = 'INSERT INTO tasks (title, description, current_status, column_id) VALUES ($1, $2, $3, $4) RETURNING id'
@@ -32,6 +37,10 @@ export default {
     getUserBoards,
     getColumnTask,
     getTasks,
+    getBoardById,
+    getColumnById,
+    getTaskById,
+    getSubtaskById,
 
     addUsers,
     addTasks,

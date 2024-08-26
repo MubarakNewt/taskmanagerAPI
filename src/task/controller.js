@@ -1,20 +1,38 @@
 import pool from "../../db.js"
 import queries from "./queries.js";
 
+
 const getUsers = (req, res) => {
+
     pool.query(queries.getUsers, (error, results) => {
         if (error) throw error;
         res.status(200).json(results.rows)
     })
 }
 
+
 const getUserById = (req, res) => {
     const id = parseInt(req.params.id)
-    pool.query(queries.getUserById, [id], (error, results) => {
-        if (error) throw error;
-        res.status(200).json(results.rows)
-    })
+
+    // pool.query(queries.getUserById, [id], (error, results) => {
+    //     const noUserFound = !results.rows.length;
+    //     if (noUserFound) {
+    //         res?.send('no student found')
+    //     }
+
+        pool.query(queries.getUserById, [id], (error, results) => {
+            if (error) throw error;
+            res?.status(200).json(results.rows)
+        })
+
+    // })
+
 }
+
+
+// const getBoardById = (req, res) => {
+
+// }
 
 const getUserBoards = (req, res) => {
     const id = parseInt(req.params.id)
@@ -47,14 +65,7 @@ const addUsers = (req, res) => {
 
     const id = parseInt(req.params.id)
 
-    pool.query(queries.getUserById, [id], (error, results) => {
-        const noUserFound = !results.rows.length;
-        if (noUserFound) {
-            res.send('no student found')
-        }
-    })
-
-    const {first_name, last_name, email} = req.body
+    const { first_name, last_name, email } = req.body
     // console.log('mememem', email)
     pool.query(queries.addUsers, [first_name, last_name, email], (error, results) => {
         if (error) throw error;
@@ -63,18 +74,11 @@ const addUsers = (req, res) => {
 
 }
 
-const addTasks =  (req, res) => {
+const addTasks = (req, res) => {
 
     const id = parseInt(req.params.id)
 
-    pool.query(queries.getUserById, [id], (error, results) => {
-        const noUserFound = !results.rows.length;
-        if (noUserFound) {
-            res.send('no student found')
-        }
-    })
-
-    const {title, description, current_status, column_id} = req.body
+    const { title, description, current_status, column_id } = req.body
 
     pool.query(queries.addTasks, [title, description, current_status, column_id], (error, results) => {
         if (error) throw error;
@@ -85,16 +89,9 @@ const addTasks =  (req, res) => {
 
 const addSubTasks = (req, res) => {
 
-    // const id = parseInt(req.params.id)
+    const id = parseInt(req.params.id)
 
-    // pool.query(queries.getUserById, [id], (error, results) => {
-    //     const noUserFound = !results.rows.length;
-    //     if (noUserFound) {
-    //         res.send('no student found')
-    //     }
-    // })
-
-    const {title, task_id} = req.body
+    const { title, task_id } = req.body
 
     pool.query(queries.addSubTasks, [title, task_id], (error, results) => {
         if (error) throw error;
@@ -106,15 +103,7 @@ const addColumn = (req, res) => {
 
     const id = parseInt(req.params.id)
 
-    pool.query(queries.getUserById, [id], (error, results) => {
-        const noUserFound = !results.rows.length;
-        if (noUserFound) {
-            res.send('no student found')
-        }
-    })
-
-
-    const {name, colour_tag, task_count, board_id} = req.body
+    const { name, colour_tag, task_count, board_id } = req.body
 
     pool.query(queries.addColumn, [name, colour_tag, task_count, board_id], (error, results) => {
         if (error) throw error;
@@ -123,7 +112,7 @@ const addColumn = (req, res) => {
 }
 
 const addBoard = (req, res) => {
-    const {name, user_id} = req.body
+    const { name, user_id } = req.body
 
     pool.query(queries.addBoard, [title, task_id], (error, results) => {
         if (error) throw error;
@@ -139,12 +128,15 @@ const removeUser = (req, res) => {
         if (noUserFound) {
             res.send('no student found')
         }
-    })
 
-    pool.query(queries.removeUser, [id], (error, results) => {
+        pool.query(queries.removeUser, [id], (error, results) => {
         if (error) throw error;
         res.status(200).send('User removed')
     })
+
+    })
+
+    
 
 }
 
@@ -184,8 +176,8 @@ const removeTask = (req, res) => {
 
 const updateUser = (req, res) => {
     const id = parseInt(req.params.id)
-    const {first_name, last_name, email} = req.body
-    
+    const { first_name, last_name, email } = req.body
+
     pool.query(queries.getUserById, [id], (error, results) => {
         const noUserFound = !results.rows.length;
         if (noUserFound) {
@@ -202,8 +194,8 @@ const updateUser = (req, res) => {
 
 const updateTask = (req, res) => {
     const id = parseInt(req.params.id)
-    const {title, description, current_status, column_id} = req.body
-    
+    const { title, description, current_status, column_id } = req.body
+
     // pool.query(queries.getUserById, [id], (error, results) => {
     //     const noUserFound = !results.rows.length;
     //     if (noUserFound) {
@@ -220,8 +212,8 @@ const updateTask = (req, res) => {
 
 const updateBoard = (req, res) => {
     const id = parseInt(req.params.id)
-    const {name, user_id} = req.body
-    
+    const { name, user_id } = req.body
+
     // pool.query(queries.getUserById, [id], (error, results) => {
     //     const noUserFound = !results.rows.length;
     //     if (noUserFound) {
