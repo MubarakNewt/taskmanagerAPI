@@ -7,9 +7,9 @@ const port = 2222
 
 app.use(express.json())
 
-app.get('/', (req, res) => {
-    res.send('sup')
-})
+// app.get('/', (req, res) => {
+//     res.send('sup')
+// })
 
 app.use('/api/v1/taskman', taskRoutes)
 
