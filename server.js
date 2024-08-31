@@ -1,6 +1,8 @@
 import express from 'express';
 import taskRoutes from './src/task/routes.js'
 import cors from "cors";
+require('dotenv').config();
+
 // const cors = require('cors');
 
 
